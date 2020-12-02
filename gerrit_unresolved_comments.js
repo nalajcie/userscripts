@@ -37,10 +37,10 @@
         return undefined;
     }
 
-    document.addEventListener('WebComponentsReady', function() {
+    function updateView(e) {
         // all of the components might not be yet ready, so delay by 1000 ms
         window.setTimeout(function() {
-            console.log('TamperGerrit: doc ready');
+            console.log('TamperGerrit: doc ready: ', e);
 
             var gr_changes = findTag(document, "GR-CHANGE-LIST");
             if (!gr_changes) {
@@ -54,5 +54,8 @@
             // show actual values
             gr_changes.shadowRoot.querySelectorAll("gr-change-list-item").forEach(r => r.shadowRoot.querySelectorAll(".comments").forEach(el => el.removeAttribute("hidden")));
         }, 1000);
-    })
+    }
+
+    document.addEventListener('WebComponentsReady', updateView);
+    document.addEventListener('location-change', updateView);
 })();
